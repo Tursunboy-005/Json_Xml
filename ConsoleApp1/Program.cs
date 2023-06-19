@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.
+using System.Text.Json;
+using System.Xml.Linq;
 
 namespace Json_Xml
 {
@@ -16,19 +17,26 @@ namespace Json_Xml
                 Id = 1,
                 Name = "Pdp academy",
                 Cars = new List<Car> {
-                new Car { Id = 1, Name = "Model X", Price = 120000 },
-                new Car { Id = 2, Name = "Model Y", Price = 125000 }
+                new Car { Id = 1, Name = "BMW ", Price = 120000 },
+                new Car { Id = 2, Name = "MERS ", Price = 125000 }
                 }
             };
+                SaveObjectToFile(company);
+        }
 
-            foreach (var car in company.Cars)
+        static void SaveObjectToFile(Company company)
+        {
+            string path = Directory.GetCurrentDirectory();
+            path += "\\obj.txt";
+
+            if (!File.Exists(path))
             {
-                Console.WriteLine(car.Name);
+                File.Create(path).Close();
+
+                string json = JsonSerializer.Serialize(company);
+                Console.WriteLine(json);
+                File.WriteAllText(path, json);
             }
-
-           // string json = 
-
-            Console.ReadLine();
         }
     }
 
@@ -39,13 +47,12 @@ namespace Json_Xml
         public string Name { get; set; }
 
         public List<Car> Cars { get; set; }
-        
     }
     class Car
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
-        
     }
+
 }
